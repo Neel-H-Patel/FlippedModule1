@@ -8,8 +8,18 @@
 
 #import "ImageModel.h"
 
+@interface ImageModel()
+
+-(UIImage*)getImageWithName:(NSString*)name;
+
+@property (strong, nonatomic) NSArray* imageNames;
+@property (strong, nonatomic) NSDictionary* imagesDict;
+
+@end
+
 @implementation ImageModel
 @synthesize imageNames = _imageNames;
+@synthesize imagesDict = _imagesDict;
 
 +(ImageModel*)sharedInstance{
     static ImageModel* _sharedInstance = nil;
@@ -22,19 +32,51 @@
 }
 
 -(NSArray*) imageNames{
+    
     if(!_imageNames)
-        _imageNames = @[@"Bill",@"Eric",@"Jeff"];
+        _imageNames = @[@"Bill",@"Eric",@"Jeff",@"Cayenne",@"911",@"Pink911"];
     
     return _imageNames; 
 }
 
 
 -(UIImage*)getImageWithName:(NSString*)name{
-    UIImage* image = nil;
     
-    image = [UIImage imageNamed:name];
+    return self.imagesDict[name];
     
-    return image;
+//    UIImage* image = nil;
+//    
+//    image = [UIImage imageNamed:name];
+//    
+//    return image;
+}
+
+-(NSString*)getImageNameForIndex: (NSInteger)index{
+    return self.imageNames[index];
+}
+
+-(UIImage*)getImageWithIndex: (NSInteger)index{
+    NSString* name = [self getImageNameForIndex:index];
+    return self.imagesDict[name];
+}
+
+-(NSInteger)numberOfImages{
+    return self.imageNames.count;
+}
+
+-(NSDictionary*)imagesDict{
+    if(!_imagesDict){
+        _imagesDict = @{
+            @"Bill":[UIImage imageNamed:@"Bill"],
+            @"Eric":[UIImage imageNamed:@"Eric"],
+            @"Jeff":[UIImage imageNamed:@"Jeff"],
+            @"Cayenne":[UIImage imageNamed:@"Cayenne"],
+            @"911":[UIImage imageNamed:@"911"],
+            @"Pink911":[UIImage imageNamed:@"Pink911"]
+        };
+    }
+    
+    return _imagesDict;
 }
 
 @end
